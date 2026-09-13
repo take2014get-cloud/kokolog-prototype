@@ -89,11 +89,40 @@ textarea{
   60%{transform:scale(1.05)}
   100%{transform:scale(1);opacity:1}
 }
+#flash {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+#flash.show {
+  display: flex;
+}
+
+#flashText {
+  animation: pop 0.8s ease-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}  
 </style>
 </head>
 
 <body>
-
+<div id="flash">
+  <div id="flashText">💎✨ 宝を発見！</div>
+</div>
 <div class="container">
 
 <h1>ココログ</h1>
@@ -250,7 +279,8 @@ buddyMessage.innerHTML=message;
 
 
 async function findTreasures(){
-
+const flash = document.getElementById("flash");
+flash.classList.remove("show");
 treasuresBox.innerHTML="";
 status.textContent="📍 現在地を確認しています…";
 
@@ -357,7 +387,12 @@ let html="";
 
 
 if(d<=10){
+const flash = document.getElementById("flash");
+flash.classList.add("show");
 
+setTimeout(() => {
+  flash.classList.remove("show");
+}, 1800);
 html=`
 <div class="treasure found">
 
