@@ -390,8 +390,7 @@ if(d<=10){
 const flash = document.getElementById("flash");
 flash.classList.add("show");
 const flashText = document.getElementById("flashText");
-  flashText.innerHTML = "💎✨ 宝を発見！
-  <br><br>" + escapeHtml(treasure.text || "名前のない宝");
+  flashText.innerHTML = "💎✨ 宝を発見！<br><br>" + escapeHtml(treasure.text || "名前のない宝");
 setTimeout(() => {
   flash.classList.remove("show");
 }, 1800);
