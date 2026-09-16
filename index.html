@@ -399,13 +399,6 @@ if(d<=10){
   setTimeout(() => {
     flash.classList.remove("show");
   }, 1800);
-  const flash = document.getElementById("flash");
-flash.classList.add("show");
-const flashText = document.getElementById("flashText");
-  flashText.innerHTML = "💎✨ 宝を発見！<br><br>" + escapeHtml(treasure.text || "名前のない宝");
-setTimeout(() => {
-  flash.classList.remove("show");
-}, 1800);
 html=`
 <div class="treasure found">
 
@@ -436,7 +429,7 @@ html=`
 </div>
 
 <div>
-かなり近いよ。もう少し探してみよう。
+ かなり近いよ。もう少し探してみよう。
 </div>
 
 <div class="distance">
