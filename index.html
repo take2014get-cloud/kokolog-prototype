@@ -148,7 +148,7 @@ textarea{
 準備OK。宝を探してみよう。
 </div>
 
-</div>"
+</div>
 
 <div id="treasures"></div>
 
@@ -387,12 +387,18 @@ let html="";
 
 
 if(d<=10){
-const flash = document.getElementById("flash");
-flash.classList.add("show");
+  const flash = document.getElementById("flash");
+  const flashText = document.getElementById("flashText");
 
-setTimeout(() => {
-  flash.classList.remove("show");
-}, 1800);
+  flashText.innerHTML =
+    "💎✨ 宝を発見！<br><br>" +
+    escapeHtml(treasure.text || "名前のない宝");
+
+  flash.classList.add("show");
+
+  setTimeout(() => {
+    flash.classList.remove("show");
+  }, 1800);
   const flash = document.getElementById("flash");
 flash.classList.add("show");
 const flashText = document.getElementById("flashText");
