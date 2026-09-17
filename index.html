@@ -109,6 +109,7 @@ textarea{
 
 #flashText {
   animation: pop 0.8s ease-out;
+  line-height: 1.6;
 }
 
 @keyframes pop {
@@ -390,9 +391,13 @@ if(d<=10){
   const flash = document.getElementById("flash");
   const flashText = document.getElementById("flashText");
 
+  flashText.innerHTML = "💎✨ 宝を発見！";
+
+setTimeout(() => {
   flashText.innerHTML =
     "💎✨ 宝を発見！<br><br>" +
     escapeHtml(treasure.text || "名前のない宝");
+}, 700);
 
   flash.classList.add("show");
 
