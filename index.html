@@ -101,6 +101,86 @@ textarea{
   text-align: center;
   font-size: 32px;
   font-weight: bold;
+  overflow: hidden;
+}
+
+/* 中央から左右へ走る光 */
+#flash::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-shadow:
+    0 0 8px #fff,
+    0 0 20px #b58cff,
+    0 0 40px #7c4dff;
+  animation: flashBeam 0.9s ease-out forwards;
+}
+
+/* 中央の強烈な光 */
+#flash::after {
+  content: "✦";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  color: #fff;
+  font-size: 100px;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px #b58cff,
+    0 0 50px #7c4dff;
+  animation: flashStar 0.9s ease-out forwards;
+}
+
+/* 左右へ光線が伸びる */
+@keyframes flashBeam {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+
+  25% {
+    width: 8%;
+    opacity: 1;
+  }
+
+  70% {
+    width: 100%;
+    opacity: 1;
+  }
+
+  100% {
+    width: 120%;
+    opacity: 0;
+  }
+}
+
+/* 中央の光が一気に開く */
+@keyframes flashStar {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  25% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+
+  55% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
 }
 
 #flash.show {
