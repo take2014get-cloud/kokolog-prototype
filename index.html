@@ -600,22 +600,50 @@ let html="";
 
 
 if(d<=10){
+
   const flash = document.getElementById("flash");
   const flashText = document.getElementById("flashText");
 
   flashText.innerHTML = "💎✨ 宝を発見！";
 
-setTimeout(() => {
-  flashText.innerHTML =
-    "💎✨ 宝を発見！<br><br>" +
-    escapeHtml(treasure.text || "名前のない宝");
-}, 700);
+  flash.classList.remove("show");
 
-  flash.classList.add("show");
+  // ブラウザに一度描画させてから演出開始
+  requestAnimationFrame(() => {
 
-  setTimeout(() => {
-    flash.classList.remove("show");
-  }, 3000);
+    flash.classList.add("show");
+
+    setTimeout(() => {
+      flashText.innerHTML =
+        "💎✨ 宝を発見！<br><br>" +
+        escapeHtml(treasure.text || "名前のない宝");
+    }, 700);
+
+    setTimeout(() => {
+      flash.classList.remove("show");
+    }, 3000);
+
+  });
+
+  html=`
+  <div class="treasure found">
+
+    <div class="reveal">
+      💎✨ 宝を発見！
+    </div>
+
+    <div class="treasure-title">
+      ${escapeHtml(treasure.text||"名前のない宝")}
+    </div>
+
+    <div class="distance">
+      📍 約${Math.round(d)}m
+    </div>
+
+  </div>
+  `;
+
+}
 html=`
 <div class="treasure found">
 
