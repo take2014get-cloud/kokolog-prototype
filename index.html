@@ -489,7 +489,50 @@ return String(value)
 function setBuddy(message){
 buddyMessage.innerHTML=message;
 }
+async function saveTreasure(){
 
+  const text = textBox.value.trim();
+
+  if(!text){
+    saveStatus.textContent="💬 残したい言葉を書いてね。";
+    return;
+  }
+
+  saveStatus.textContent="📍 現在地を確認しています…";
+
+  try{
+
+    const location=await getLocation();
+
+    await addDoc(
+      collection(db,"treasures"),
+      {
+        text:text,
+        lat:location.lat,
+        lng:location.lng,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    textBox.value="";
+
+    saveStatus.textContent=
+      "✨ 宝を残した！ この場所に、あなたの言葉が残ったよ。";
+
+    setBuddy(
+      "🐾 宝がひとつ増えたね。<br><strong>誰かがこの場所に来たら、きっと見つけてくれるよ。</strong>"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    saveStatus.textContent=
+      "❌ 宝を残せませんでした。";
+
+  }
+
+}
 
 async function findTreasures(){
 const flash = document.getElementById("flash");
