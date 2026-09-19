@@ -594,184 +594,103 @@ setBuddy(
 
 treasures.forEach(treasure=>{
 
-const d=treasure.distance;
+  const d=treasure.distance;
 
-let html="";
+  let html="";
 
+  if(d<=100){
 
-if(d<=100){
+    const flash = document.getElementById("flash");
+    const flashText = document.getElementById("flashText");
 
-  const flash = document.getElementById("flash");
-  const flashText = document.getElementById("flashText");
+    flashText.innerHTML = "💎✨ 宝を発見！";
 
-  flashText.innerHTML = "💎✨ 宝を発見！";
+    flash.classList.remove("show");
 
-  flash.classList.remove("show");
+    requestAnimationFrame(() => {
 
-  // ブラウザに一度描画させてから演出開始
-  requestAnimationFrame(() => {
+      flash.classList.add("show");
 
-    flash.classList.add("show");
+      setTimeout(() => {
+        flashText.innerHTML =
+          "💎✨ 宝を発見！<br><br>" +
+          escapeHtml(treasure.text || "名前のない宝");
+      }, 700);
 
-    setTimeout(() => {
-      flashText.innerHTML =
-        "💎✨ 宝を発見！<br><br>" +
-        escapeHtml(treasure.text || "名前のない宝");
-    }, 700);
+      setTimeout(() => {
+        flash.classList.remove("show");
+      }, 3000);
 
-    setTimeout(() => {
-      flash.classList.remove("show");
-    }, 3000);
+    });
 
-  });
+    html=`
+    <div class="treasure found">
 
-  html=`
-  <div class="treasure found">
+      <div class="reveal">
+        💎✨ 宝を発見！
+      </div>
 
-    <div class="reveal">
-      💎✨ 宝を発見！
+      <div class="treasure-title">
+        ${escapeHtml(treasure.text||"名前のない宝")}
+      </div>
+
+      <div class="distance">
+        📍 約${Math.round(d)}m
+      </div>
+
     </div>
+    `;
 
-    <div class="treasure-title">
-      ${escapeHtml(treasure.text||"名前のない宝")}
+  }
+
+  else if(d<=30){
+
+    html=`
+    <div class="treasure near">
+
+      <div class="treasure-title">
+        🐾 宝の気配がする……
+      </div>
+
+      <div>
+        かなり近いよ。もう少し探してみよう。
+      </div>
+
+      <div class="distance">
+        📍 約${Math.round(d)}m
+      </div>
+
     </div>
+    `;
 
-    <div class="distance">
-      📍 約${Math.round(d)}m
+  }
+
+  else{
+
+    html=`
+    <div class="treasure near">
+
+      <div class="treasure-title">
+        💫 宝の気配
+      </div>
+
+      <div>
+        この辺りに何かあるみたい……
+      </div>
+
+      <div class="distance">
+        📍 約${Math.round(d)}m
+      </div>
+
     </div>
+    `;
 
-  </div>
-  `;
+  }
 
-}
-html=`
-<div class="treasure found">
-
-<div class="reveal">
-💎✨ 宝を発見！
-</div>
-
-<div class="treasure-title">
-${escapeHtml(treasure.text||"名前のない宝")}
-</div>
-
-<div class="distance">
-📍 約${Math.round(d)}m
-</div>
-
-</div>
-`;
-
-}
-
-else if(d<=30){
-
-html=`
-<div class="treasure near">
-
-<div class="treasure-title">
-🐾 宝の気配がする……
-</div>
-
-<div>
- かなり近いよ。もう少し探してみよう。
-</div>
-
-<div class="distance">
-📍 約${Math.round(d)}m
-</div>
-
-</div>
-`;
-
-}
-
-else{
-
-html=`
-<div class="treasure near">
-
-<div class="treasure-title">
-💫 宝の気配
-</div>
-
-<div>
-この辺りに何かあるみたい……
-</div>
-
-<div class="distance">
-📍 約${Math.round(d)}m
-</div>
-
-</div>
-`;
-
-}
-
-treasuresBox.innerHTML+=html;
+  treasuresBox.innerHTML+=html;
 
 });
 
-
-if(found.length>0){
-
-status.textContent=
-`✨ ${found.length}個の宝を発見！`;
-
-}else{
-
-status.textContent=
-`💫 ${treasures.length}個の宝の気配を感じる！`;
-
-}
-
-}
-
-catch(error){
-
-console.error(error);
-
-status.textContent=
-"❌ 現在地を取得できませんでした。";
-
-setBuddy(
-"🐾 あれ？GPSがうまく取れなかったみたい。<br>位置情報をONにして、もう一度試してみてね。"
-);
-
-}
-
-}
-
-
-async function saveTreasure(){
-
-const text=textBox.value.trim();
-
-if(!text){
-
-saveStatus.textContent=
-"宝にする言葉を書いてみよう。";
-
-return;
-}
-
-saveStatus.textContent=
-"📍 現在地を確認しています…";
-
-try{
-
-const location=await getLocation();
-
-await addDoc(
-collection(db,"treasures"),
-{
-text:text,
-lat:location.lat,
-lng:location.lng,
-type:"word",
-createdAt:serverTimestamp()
-}
-);
 
 textBox.value="";
 
