@@ -182,8 +182,86 @@ textarea{
     0 0 20px #c080ff,
     0 0 40px #7b3cff;
 }
+#flash {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  overflow: hidden;
+}
 
-/* 横線が中央から一気に突き抜ける */
+#flash.show {
+  display: flex;
+}
+
+/* 中央から左右へ走る光 */
+#flash::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 160%;
+  height: 10px;
+  transform: translate(-50%, -50%) scaleX(0);
+  background: linear-gradient(
+    to right,
+    transparent,
+    #b56cff 25%,
+    #fff 50%,
+    #b56cff 75%,
+    transparent
+  );
+  box-shadow:
+    0 0 15px #fff,
+    0 0 35px #b56cff,
+    0 0 80px #713cff;
+  animation: beam 0.8s ease-out forwards;
+}
+
+/* 中央の爆発 */
+#flash::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  height: 240px;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #fff 0%,
+    #fff 5%,
+    rgba(220,170,255,.9) 15%,
+    rgba(130,60,255,.5) 35%,
+    transparent 70%
+  );
+  box-shadow:
+    0 0 30px #fff,
+    0 0 70px #c080ff,
+    0 0 150px #713cff;
+  animation: explosion 1.2s ease-out forwards;
+}
+
+#flashText {
+  position: relative;
+  z-index: 10;
+  line-height: 1.6;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px #c080ff,
+    0 0 50px #713cff;
+  animation: revealText .8s ease-out forwards;
+}
+
+/* 左右へ光が伸びる */
 @keyframes beam {
   0% {
     transform: translate(-50%, -50%) scaleX(0);
@@ -191,22 +269,22 @@ textarea{
   }
 
   20% {
-    transform: translate(-50%, -50%) scaleX(0.15);
+    transform: translate(-50%, -50%) scaleX(.15);
     opacity: 1;
   }
 
-  55% {
-    transform: translate(-50%, -50%) scaleX(0.7);
+  50% {
+    transform: translate(-50%, -50%) scaleX(1);
     opacity: 1;
   }
 
   100% {
     transform: translate(-50%, -50%) scaleX(1);
-    opacity: 0;
+    opacity: .15;
   }
 }
 
-/* 中央が爆発する */
+/* 中央の光が広がって余韻を残す */
 @keyframes explosion {
   0% {
     transform: translate(-50%, -50%) scale(0);
@@ -214,13 +292,18 @@ textarea{
   }
 
   20% {
-    transform: translate(-50%, -50%) scale(0.25);
+    transform: translate(-50%, -50%) scale(.3);
     opacity: 1;
   }
 
   45% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: .9;
+  }
+
+  75% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: .45;
   }
 
   100% {
@@ -229,10 +312,10 @@ textarea{
   }
 }
 
-/* 発見文字 */
-@keyframes textFlash {
+/* 「宝を発見！」 */
+@keyframes revealText {
   0% {
-    transform: scale(0.5);
+    transform: scale(.4);
     opacity: 0;
   }
 
@@ -246,41 +329,6 @@ textarea{
     opacity: 1;
   }
 }
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-  }
-
-  25% {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 1;
-  }
-
-  55% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1.8);
-    opacity: 0;
-  }
-}
-
-#flash.show {
-  display: flex;
-}
-
-#flashText {
-  animation: pop 0.8s ease-out;
-  line-height: 1.6;
-}
-
-@keyframes pop {
-  0% { transform: scale(0.2); opacity: 0; }
-  60% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
-}  
 </style>
 </head>
 
