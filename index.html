@@ -629,7 +629,8 @@ setBuddy(
 }
 
 
-treasures.forEach(treasure=>{
+
+  treasures.forEach(treasure=>{
 
   const d=treasure.distance;
 
@@ -686,11 +687,11 @@ treasures.forEach(treasure=>{
     <div class="treasure near">
 
       <div class="treasure-title">
-        🐾 宝の気配がする……
+        🐾 近い……！
       </div>
 
       <div>
-        かなり近いよ。もう少し探してみよう。
+        宝の気配がかなり強くなってきたよ。
       </div>
 
       <div class="distance">
@@ -708,11 +709,11 @@ treasures.forEach(treasure=>{
     <div class="treasure near">
 
       <div class="treasure-title">
-        💫 宝の気配
+        💫 宝の気配……
       </div>
 
       <div>
-        この辺りに何かあるみたい……
+        🐾 何か感じる。この辺りに宝があるみたい。
       </div>
 
       <div class="distance">
@@ -727,16 +728,6 @@ treasures.forEach(treasure=>{
   treasuresBox.innerHTML+=html;
 
 });
-
-
-textBox.value="";
-
-saveStatus.textContent=
-"✨ 宝を残した！ この場所に、あなたの言葉が残ったよ。";
-
-setBuddy(
-"🐾 宝がひとつ増えたね。<br><strong>誰かがこの場所に来たら、きっと見つけてくれるよ。</strong>"
-);
 
 }
 
