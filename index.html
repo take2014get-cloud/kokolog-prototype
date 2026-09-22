@@ -1,30 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ココログ 0.3</title>
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>ココログ</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   padding:20px 14px 40px;
-  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Noto Sans JP",
+    sans-serif;
   background:#f4f7f5;
   color:#333;
 }
-.container{max-width:520px;margin:auto}
-h1{text-align:center;margin:10px 0 4px;font-size:30px}
-.sub{text-align:center;color:#777;font-size:14px;margin-bottom:18px}
+
+.container{
+  max-width:520px;
+  margin:auto;
+}
+
+h1{
+  text-align:center;
+  margin:10px 0 4px;
+  font-size:30px;
+}
+
+h2{
+  font-size:20px;
+  margin:5px 0 12px;
+}
+
+.sub{
+  text-align:center;
+  color:#777;
+  font-size:14px;
+  margin-bottom:18px;
+}
+
 .card{
   background:white;
   border-radius:18px;
   padding:18px;
   margin-bottom:15px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.08);
 }
-.buddy{text-align:center;font-size:58px;margin:5px 0}
+
+.buddy{
+  text-align:center;
+  font-size:58px;
+  margin:5px 0;
+}
+
 .bubble{
   background:#f0f6ff;
   border-radius:16px;
@@ -34,6 +77,7 @@ h1{text-align:center;margin:10px 0 4px;font-size:30px}
   font-size:15px;
   line-height:1.6;
 }
+
 button{
   width:100%;
   border:none;
@@ -46,7 +90,11 @@ button{
   background:#333;
   color:white;
 }
-button:active{transform:scale(.98)}
+
+button:active{
+  transform:scale(.98);
+}
+
 textarea{
   width:100%;
   min-height:120px;
@@ -57,6 +105,7 @@ textarea{
   font-size:16px;
   font-family:inherit;
 }
+
 .status{
   text-align:center;
   color:#666;
@@ -64,6 +113,7 @@ textarea{
   margin-top:12px;
   min-height:22px;
 }
+
 .treasure{
   background:#fffdf2;
   border-radius:15px;
@@ -71,460 +121,984 @@ textarea{
   margin-top:12px;
   border:1px solid #eee4ad;
 }
+
 .treasure.near{
   background:#f5f5ff;
   border-color:#d8d8f5;
 }
+
 .treasure.found{
   background:#fff8df;
   border-color:#e5c94b;
   animation:found .6s ease;
 }
-.treasure-title{font-weight:bold;margin-bottom:7px}
-.distance{color:#777;font-size:13px}
-.empty{text-align:center;color:#888;padding:15px 5px}
-.reveal{text-align:center;font-size:22px;padding:8px 0}
+
+.treasure-title{
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.distance{
+  color:#777;
+  font-size:13px;
+  margin-top:7px;
+}
+
+.empty{
+  text-align:center;
+  color:#888;
+  padding:15px 5px;
+}
+
+.reveal{
+  text-align:center;
+  font-size:22px;
+  padding:8px 0;
+}
+
+.history{
+  background:#fff;
+  border-radius:15px;
+  padding:15px;
+  margin-top:10px;
+  border:1px solid #eee;
+}
+
+.history-title{
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.history-date{
+  color:#888;
+  font-size:12px;
+  margin-top:7px;
+}
+
+.no-history{
+  text-align:center;
+  color:#999;
+  padding:15px 5px;
+  font-size:14px;
+}
+
+
+/* 宝発見アニメーション */
+
 @keyframes found{
-  0%{transform:scale(.9);opacity:0}
-  60%{transform:scale(1.05)}
-  100%{transform:scale(1);opacity:1}
+
+  0%{
+    transform:scale(.9);
+    opacity:0;
+  }
+
+  60%{
+    transform:scale(1.05);
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+
 }
-#flash {
-  position: fixed;
-  inset: 0;
+
+
+/* プチュン画面 */
+
+#flash{
+
+  position:fixed;
+
+  inset:0;
+
+  background:#000;
+
+  display:none;
+
+  align-items:center;
+
+  justify-content:center;
+
+  z-index:9999;
+
+  color:#fff;
+
+  text-align:center;
+
+  font-size:32px;
+
+  font-weight:bold;
+
+  overflow:hidden;
+
+}
+
+#flash.show{
+  display:flex;
+}
+
+
+/* 中央から左右へ伸びる光 */
+
+#flash::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:160%;
+  height:12px;
+
+  transform:
+    translate(-50%,-50%)
+    scaleX(0);
+
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255,255,255,0.9) 0%,
-      rgba(180,120,255,0.35) 3%,
-      rgba(90,40,180,0.18) 12%,
-      rgba(0,0,0,0.95) 35%,
-      #000 65%
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(130,60,255,.15) 20%,
+      rgba(180,110,255,.9) 40%,
+      #fff 50%,
+      rgba(180,110,255,.9) 60%,
+      rgba(130,60,255,.15) 80%,
+      transparent 100%
     );
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  color: #fff;
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  overflow: hidden;
-}
 
-#flash.show {
-  display: flex;
-}
-
-/* 横方向の巨大な光 */
-#flash::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 160%;
-  height: 18px;
-  transform: translate(-50%, -50%) scaleX(0);
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(120,60,255,0.1) 20%,
-    rgba(170,110,255,0.8) 40%,
-    #fff 50%,
-    rgba(170,110,255,0.8) 60%,
-    rgba(120,60,255,0.1) 80%,
-    transparent 100%
-  );
   box-shadow:
-    0 0 12px #fff,
-    0 0 30px #b06cff,
-    0 0 70px #713cff,
-    0 0 120px #4a1cff;
-  animation: beam 0.75s ease-out forwards;
+    0 0 15px #fff,
+    0 0 40px #b56cff,
+    0 0 80px #713cff,
+    0 0 130px #4a1cff;
+
+  animation:
+    beam .8s ease-out forwards;
+
 }
 
-/* 中央の爆発光＋上下の光 */
-#flash::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 220px;
-  height: 220px;
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
+
+/* 中央の爆発光 */
+
+#flash::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:240px;
+  height:240px;
+
+  transform:
+    translate(-50%,-50%)
+    scale(0);
+
+  border-radius:50%;
+
   background:
     radial-gradient(
       circle,
       #fff 0%,
-      #fff 4%,
-      rgba(255,255,255,0.95) 8%,
-      rgba(200,150,255,0.7) 18%,
-      rgba(130,70,255,0.3) 35%,
+      #fff 5%,
+      rgba(220,170,255,.95) 15%,
+      rgba(130,60,255,.5) 35%,
       transparent 70%
     );
-  box-shadow:
-    0 0 25px #fff,
-    0 0 60px #d08cff,
-    0 0 120px #7b3cff,
-    0 0 200px #4c1cff;
-  animation: explosion 0.75s ease-out forwards;
-}
 
-#flashText {
-  position: relative;
-  z-index: 10;
-  opacity: 0;
-  animation: textFlash 0.75s ease-out 0.25s forwards;
-  line-height: 1.6;
-  text-shadow:
-    0 0 8px #fff,
-    0 0 20px #c080ff,
-    0 0 40px #7b3cff;
-}
-#flash {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  color: #fff;
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  overflow: hidden;
-}
-
-#flash.show {
-  display: flex;
-}
-
-/* 中央から左右へ走る光 */
-#flash::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 160%;
-  height: 10px;
-  transform: translate(-50%, -50%) scaleX(0);
-  background: linear-gradient(
-    to right,
-    transparent,
-    #b56cff 25%,
-    #fff 50%,
-    #b56cff 75%,
-    transparent
-  );
-  box-shadow:
-    0 0 15px #fff,
-    0 0 35px #b56cff,
-    0 0 80px #713cff;
-  animation: beam 0.8s ease-out forwards;
-}
-
-/* 中央の爆発 */
-#flash::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 240px;
-  height: 240px;
-  transform: translate(-50%, -50%) scale(0);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    #fff 0%,
-    #fff 5%,
-    rgba(220,170,255,.9) 15%,
-    rgba(130,60,255,.5) 35%,
-    transparent 70%
-  );
   box-shadow:
     0 0 30px #fff,
     0 0 70px #c080ff,
     0 0 150px #713cff;
-  animation: explosion 1.2s ease-out forwards;
+
+  animation:
+    explosion 1.2s ease-out forwards;
+
 }
 
-#flashText {
-  position: relative;
-  z-index: 10;
-  line-height: 1.6;
+
+/* 発見文字 */
+
+#flashText{
+
+  position:relative;
+
+  z-index:10;
+
+  line-height:1.6;
+
   text-shadow:
     0 0 10px #fff,
     0 0 25px #c080ff,
     0 0 50px #713cff;
-  animation: revealText .8s ease-out forwards;
+
+  animation:
+    revealText .8s ease-out forwards;
+
 }
 
-/* 左右へ光が伸びる */
-@keyframes beam {
-  0% {
-    transform: translate(-50%, -50%) scaleX(0);
-    opacity: 0;
+
+/* 横方向の光 */
+
+@keyframes beam{
+
+  0%{
+
+    transform:
+      translate(-50%,-50%)
+      scaleX(0);
+
+    opacity:0;
+
   }
 
-  20% {
-    transform: translate(-50%, -50%) scaleX(.15);
-    opacity: 1;
+  20%{
+
+    transform:
+      translate(-50%,-50%)
+      scaleX(.15);
+
+    opacity:1;
+
   }
 
-  50% {
-    transform: translate(-50%, -50%) scaleX(1);
-    opacity: 1;
+  50%{
+
+    transform:
+      translate(-50%,-50%)
+      scaleX(1);
+
+    opacity:1;
+
   }
 
-  100% {
-    transform: translate(-50%, -50%) scaleX(1);
-    opacity: .15;
+  100%{
+
+    transform:
+      translate(-50%,-50%)
+      scaleX(1);
+
+    opacity:.15;
+
   }
+
 }
 
-/* 中央の光が広がって余韻を残す */
-@keyframes explosion {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
+
+/* 爆発 */
+
+@keyframes explosion{
+
+  0%{
+
+    transform:
+      translate(-50%,-50%)
+      scale(0);
+
+    opacity:0;
+
   }
 
-  20% {
-    transform: translate(-50%, -50%) scale(.3);
-    opacity: 1;
+  20%{
+
+    transform:
+      translate(-50%,-50%)
+      scale(.3);
+
+    opacity:1;
+
   }
 
-  45% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: .9;
+  45%{
+
+    transform:
+      translate(-50%,-50%)
+      scale(1);
+
+    opacity:.9;
+
   }
 
-  75% {
-    transform: translate(-50%, -50%) scale(1.8);
-    opacity: .45;
+  75%{
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.8);
+
+    opacity:.45;
+
   }
 
-  100% {
-    transform: translate(-50%, -50%) scale(2.5);
-    opacity: 0;
+  100%{
+
+    transform:
+      translate(-50%,-50%)
+      scale(2.5);
+
+    opacity:0;
+
   }
+
 }
 
-/* 「宝を発見！」 */
-@keyframes revealText {
-  0% {
-    transform: scale(.4);
-    opacity: 0;
+
+/* 文字 */
+
+@keyframes revealText{
+
+  0%{
+
+    transform:scale(.4);
+
+    opacity:0;
+
   }
 
-  50% {
-    transform: scale(1.15);
-    opacity: 1;
+  50%{
+
+    transform:scale(1.15);
+
+    opacity:1;
+
   }
 
-  100% {
-    transform: scale(1);
-    opacity: 1;
+  100%{
+
+    transform:scale(1);
+
+    opacity:1;
+
   }
+
 }
+
 </style>
+
 </head>
 
+
 <body>
+
+
+<!-- 宝発見演出 -->
+
 <div id="flash">
-  <div id="flashText">💎✨ 宝を発見！</div>
+
+  <div id="flashText">
+    💎✨ 宝を発見！
+  </div>
+
 </div>
+
+
 <div class="container">
+
 
 <h1>ココログ</h1>
 
+
 <div class="sub">
+
 この場所に、あなたの言葉を残そう。
+
 </div>
+
+
+<!-- AI相棒 -->
 
 <div class="card">
 
-<div class="buddy">🐾</div>
+  <div class="buddy">
+    🐾
+  </div>
 
-<div id="buddyMessage" class="bubble">
-こんにちは！<br>
-今日はどんな宝を探しに行こうか？
+
+  <div
+    id="buddyMessage"
+    class="bubble"
+  >
+
+    こんにちは！<br>
+    今日はどんな宝を探しに行こうか？
+
+  </div>
+
+
+  <button id="findBtn">
+
+    🔎 近くの宝を探す
+
+  </button>
+
+
+  <div
+    id="status"
+    class="status"
+  >
+
+    準備OK。宝を探してみよう。
+
+  </div>
+
 </div>
 
-<button id="findBtn">
-🔎 近くの宝を探す
-</button>
 
-<div id="status" class="status">
-準備OK。宝を探してみよう。
-</div>
-
-</div>
+<!-- 宝の検索結果 -->
 
 <div id="treasures"></div>
 
+
+<!-- 発見履歴 -->
+
 <div class="card">
 
-<h2>💎 宝を残す</h2>
+  <h2>
+    🏆 発見した宝
+  </h2>
 
-<p style="color:#777;font-size:14px">
-この場所に残したい言葉を書いてみよう。
-</p>
+  <div id="foundTreasures">
 
-<textarea
-id="text"
-placeholder="この場所に残したい言葉を書こう"
-></textarea>
+    <div class="no-history">
+      まだ発見した宝はないよ。<br>
+      宝を探しに行ってみよう！
+    </div>
 
-<button id="saveBtn">
-✨ この場所に宝を残す
-</button>
-
-<div id="saveStatus" class="status"></div>
+  </div>
 
 </div>
 
+
+<!-- 宝を残す -->
+
+<div class="card">
+
+  <h2>
+    💎 宝を残す
+  </h2>
+
+
+  <p
+    style="
+      color:#777;
+      font-size:14px;
+    "
+  >
+
+    この場所に残したい言葉を書いてみよう。
+
+  </p>
+
+
+  <textarea
+    id="text"
+    placeholder="この場所に残したい言葉を書こう"
+  ></textarea>
+
+
+  <button id="saveBtn">
+
+    ✨ この場所に宝を残す
+
+  </button>
+
+
+  <div
+    id="saveStatus"
+    class="status"
+  ></div>
+
 </div>
+
+
+</div>
+
 
 <script type="module">
 
-import {
-initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+/* Firebase */
 
 import {
-getFirestore,
-collection,
-addDoc,
-getDocs,
-serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+  initializeApp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
-apiKey:"AIzaSyCwlrGb45ZlCoiWq549iAusHA0t6DlobEY",
-authDomain:"kokolog-49f3a.firebaseapp.com",
-projectId:"kokolog-49f3a",
-storageBucket:"kokolog-49f3a.firebasestorage.app",
-messagingSenderId:"502064180142",
-appId:"1:502064180142:web:f52b885f1f6821880e363f"
+
+  apiKey:
+  "AIzaSyCwlrGb45ZlCoiWq549iAusHA0t6DlobEY",
+
+  authDomain:
+  "kokolog-49f3a.firebaseapp.com",
+
+  projectId:
+  "kokolog-49f3a",
+
+  storageBucket:
+  "kokolog-49f3a.firebasestorage.app",
+
+  messagingSenderId:
+  "502064180142",
+
+  appId:
+  "1:502064180142:web:f52b885f1f6821880e363f"
+
 };
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
 
-const findBtn=document.getElementById("findBtn");
-const saveBtn=document.getElementById("saveBtn");
-const status=document.getElementById("status");
-const saveStatus=document.getElementById("saveStatus");
-const treasuresBox=document.getElementById("treasures");
-const buddyMessage=document.getElementById("buddyMessage");
-const textBox=document.getElementById("text");
+const app =
+initializeApp(firebaseConfig);
 
+
+const db =
+getFirestore(app);
+
+
+/* HTML要素 */
+
+const findBtn =
+document.getElementById("findBtn");
+
+const saveBtn =
+document.getElementById("saveBtn");
+
+const status =
+document.getElementById("status");
+
+const saveStatus =
+document.getElementById("saveStatus");
+
+const treasuresBox =
+document.getElementById("treasures");
+
+const foundTreasures =
+document.getElementById("foundTreasures");
+
+const buddyMessage =
+document.getElementById("buddyMessage");
+
+const textBox =
+document.getElementById("text");
+
+const flash =
+document.getElementById("flash");
+
+const flashText =
+document.getElementById("flashText");
+
+
+/* =========================
+   GPS
+========================= */
 
 function getLocation(){
 
-return new Promise((resolve,reject)=>{
+  return new Promise(
+    (resolve,reject)=>{
 
-if(!navigator.geolocation){
-reject(new Error("GPSが使えません"));
-return;
+      if(!navigator.geolocation){
+
+        reject(
+          new Error("GPSが使えません")
+        );
+
+        return;
+
+      }
+
+
+      navigator.geolocation.getCurrentPosition(
+
+        position=>{
+
+          resolve({
+
+            lat:
+            position.coords.latitude,
+
+            lng:
+            position.coords.longitude
+
+          });
+
+        },
+
+
+        error=>{
+
+          reject(error);
+
+        },
+
+
+        {
+
+          enableHighAccuracy:true,
+
+          timeout:15000,
+
+          maximumAge:0
+
+        }
+
+      );
+
+    }
+  );
+
 }
 
-navigator.geolocation.getCurrentPosition(
-position=>{
-resolve({
-lat:position.coords.latitude,
-lng:position.coords.longitude
-});
-},
-error=>reject(error),
-{
-enableHighAccuracy:true,
-timeout:15000,
-maximumAge:0
+
+/* =========================
+   距離計算
+========================= */
+
+function distance(
+  lat1,
+  lng1,
+  lat2,
+  lng2
+){
+
+  const R=6371000;
+
+  const rad=Math.PI/180;
+
+  const dLat=
+    (lat2-lat1)*rad;
+
+  const dLng=
+    (lng2-lng1)*rad;
+
+
+  const a=
+
+    Math.sin(dLat/2)**2
+
+    +
+
+    Math.cos(lat1*rad)
+    *
+    Math.cos(lat2*rad)
+    *
+    Math.sin(dLng/2)**2;
+
+
+  return R*
+    2*
+    Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1-a)
+    );
+
 }
-);
-
-});
-}
 
 
-function distance(lat1,lng1,lat2,lng2){
-
-const R=6371000;
-const rad=Math.PI/180;
-
-const dLat=(lat2-lat1)*rad;
-const dLng=(lng2-lng1)*rad;
-
-const a=
-Math.sin(dLat/2)**2+
-Math.cos(lat1*rad)*
-Math.cos(lat2*rad)*
-Math.sin(dLng/2)**2;
-
-return R*2*Math.atan2(
-Math.sqrt(a),
-Math.sqrt(1-a)
-);
-
-}
-
+/* =========================
+   HTML安全化
+========================= */
 
 function escapeHtml(value){
 
-return String(value)
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
+
+/* =========================
+   AI相棒メッセージ
+========================= */
 
 function setBuddy(message){
-buddyMessage.innerHTML=message;
+
+  buddyMessage.innerHTML=
+    message;
+
 }
-async function saveTreasure(){
 
-  const text = textBox.value.trim();
 
-  if(!text){
-    saveStatus.textContent="💬 残したい言葉を書いてね。";
-    return;
-  }
+/* =========================
+   発見履歴
+========================= */
 
-  saveStatus.textContent="📍 現在地を確認しています…";
+const HISTORY_KEY=
+  "kokolog_found_treasures";
+
+
+function getFoundHistory(){
 
   try{
 
-    const location=await getLocation();
-
-    await addDoc(
-      collection(db,"treasures"),
-      {
-        text:text,
-        lat:location.lat,
-        lng:location.lng,
-        createdAt:serverTimestamp()
-      }
+    return JSON.parse(
+      localStorage.getItem(
+        HISTORY_KEY
+      ) || "[]"
     );
-
-    textBox.value="";
-saveStatus.textContent=
-"✨ 宝を残した！ この場所に、あなたの言葉が残ったよ。";
-
-setBuddy(
-"🐾 宝がひとつ増えたね。<br><strong>誰かがこの場所に来たら、きっと見つけてくれるよ。</strong>"
-);
 
   }catch(error){
 
     console.error(error);
+
+    return [];
+
+  }
+
+}
+
+
+function saveFoundHistory(history){
+
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(history)
+  );
+
+}
+
+
+function addFoundTreasure(treasure){
+
+  const history=
+    getFoundHistory();
+
+
+  const alreadyFound=
+    history.some(
+      item=>
+        item.id===treasure.id
+    );
+
+
+  if(alreadyFound){
+
+    return false;
+
+  }
+
+
+  history.unshift({
+
+    id:
+    treasure.id,
+
+    text:
+    treasure.text ||
+    "名前のない宝",
+
+    foundAt:
+    new Date().toLocaleString(
+      "ja-JP"
+    )
+
+  });
+
+
+  saveFoundHistory(
+    history
+  );
+
+
+  return true;
+
+}
+
+
+/* =========================
+   発見履歴を表示
+========================= */
+
+function renderFoundHistory(){
+
+  const history=
+    getFoundHistory();
+
+
+  if(history.length===0){
+
+    foundTreasures.innerHTML=`
+
+      <div class="no-history">
+
+        まだ発見した宝はないよ。<br>
+        宝を探しに行ってみよう！
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  foundTreasures.innerHTML="";
+
+
+  history.forEach(
+    item=>{
+
+      const card=
+        document.createElement(
+          "div"
+        );
+
+
+      card.className=
+        "history";
+
+
+      card.innerHTML=`
+
+        <div class="history-title">
+
+          💎
+          ${escapeHtml(item.text)}
+
+        </div>
+
+        <div class="history-date">
+
+          🏆 ${escapeHtml(item.foundAt)}
+
+        </div>
+
+      `;
+
+
+      foundTreasures.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   宝を残す
+========================= */
+
+async function saveTreasure(){
+
+  const text=
+    textBox.value.trim();
+
+
+  if(!text){
+
+    saveStatus.textContent=
+      "💬 残したい言葉を書いてね。";
+
+    return;
+
+  }
+
+
+  saveStatus.textContent=
+    "📍 現在地を確認しています…";
+
+
+  try{
+
+    const location=
+      await getLocation();
+
+
+    await addDoc(
+
+      collection(
+        db,
+        "treasures"
+      ),
+
+      {
+
+        text:text,
+
+        lat:
+        location.lat,
+
+        lng:
+        location.lng,
+
+        createdAt:
+        serverTimestamp()
+
+      }
+
+    );
+
+
+    textBox.value="";
+
+
+    saveStatus.textContent=
+      "✨ 宝を残した！ この場所に、あなたの言葉が残ったよ。";
+
+
+    setBuddy(
+
+      "🐾 宝がひとつ増えたね。<br>" +
+
+      "<strong>" +
+
+      "誰かがこの場所に来たら、" +
+
+      "きっと見つけてくれるよ。" +
+
+      "</strong>"
+
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
 
     saveStatus.textContent=
       "❌ 宝を残せませんでした。";
@@ -533,243 +1107,469 @@ setBuddy(
 
 }
 
+
+/* =========================
+   宝を探す
+========================= */
+
 async function findTreasures(){
-const flash = document.getElementById("flash");
-flash.classList.remove("show");
-treasuresBox.innerHTML="";
-status.textContent="📍 現在地を確認しています…";
 
-setBuddy("🐾 ちょっと待ってね。<br>今いる場所を調べてるよ。");
-
-try{
-
-const location=await getLocation();
-
-status.textContent=
-`📍 現在地OK　緯度 ${location.lat.toFixed(5)} / 経度 ${location.lng.toFixed(5)}`;
-
-setBuddy(
-"🐾 よし、場所が分かった！<br>この近くに宝がないか探してみよう。"
-);
-
-const snapshot=
-await getDocs(collection(db,"treasures"));
-
-const treasures=[];
-
-snapshot.forEach(doc=>{
-
-const data=doc.data();
-
-if(
-typeof data.lat!=="number"||
-typeof data.lng!=="number"
-){
-return;
-}
-
-const d=distance(
-location.lat,
-location.lng,
-data.lat,
-data.lng
-);
-
-if(d<=100){
-
-treasures.push({
-id:doc.id,
-...data,
-distance:d
-});
-
-}
-
-});
-
-treasures.sort((a,b)=>a.distance-b.distance);
+  treasuresBox.innerHTML="";
 
 
-if(treasures.length===0){
-
-treasuresBox.innerHTML=`
-<div class="card empty">
-💭 この近くには、まだ宝の気配がないみたい。
-</div>
-`;
-
-status.textContent="この100m以内には宝がありません。";
-
-setBuddy(
-"🐾 うーん……まだ何も感じないな。<br>別の場所を探してみよう！"
-);
-
-return;
-}
+  status.textContent=
+    "📍 現在地を確認しています…";
 
 
-const found=treasures.filter(
-t=>t.distance<=10
-);
-found.forEach(treasure=>{
-  const card = document.createElement("div");
-  card.className = "treasure-card";
-
-  card.innerHTML = `
-    <strong>💎 ${treasure.text}</strong>
-    <div>📍 発見した宝</div>
-  `;
-
-  foundTreasures.prepend(card);
-});
-
-if(found.length>0){
-
-setBuddy(
-"🐾 あっ！！<br><strong>すごく近いよ！</strong><br>宝がある！"
-);
-
-}else if(treasures.some(t=>t.distance<=30)){
-
-setBuddy(
-"🐾 かなり近い……。<br>この辺りに宝があるよ。"
-);
-
-}else{
-
-setBuddy(
-"🐾 何か感じる……。<br>この近くに宝があるみたい。"
-);
-
-}
+  setBuddy(
+    "🐾 ちょっと待ってね。<br>" +
+    "今いる場所を調べてるよ。"
+  );
 
 
+  try{
 
-  treasures.forEach(treasure=>{
+    const location=
+      await getLocation();
 
-  const d=treasure.distance;
 
-  let html="";
+    status.textContent=
 
-  if(d<=10){
+      `📍 現在地OK　` +
 
-    const flash = document.getElementById("flash");
-    const flashText = document.getElementById("flashText");
+      `緯度 ${location.lat.toFixed(5)} / ` +
 
-    flashText.innerHTML = "💎✨ 宝を発見！";
+      `経度 ${location.lng.toFixed(5)}`;
 
-    flash.classList.remove("show");
 
-    requestAnimationFrame(() => {
+    setBuddy(
 
-      flash.classList.add("show");
+      "🐾 よし、場所が分かった！<br>" +
 
-      setTimeout(() => {
-        flashText.innerHTML =
-          "💎✨ 宝を発見！<br><br>" +
-          escapeHtml(treasure.text || "名前のない宝");
-      }, 700);
+      "この近くに宝がないか探してみよう。"
 
-      setTimeout(() => {
-        flash.classList.remove("show");
-      }, 3000);
+    );
 
-    });
 
-    html=`
-    <div class="treasure found">
+    const snapshot=
+      await getDocs(
+        collection(
+          db,
+          "treasures"
+        )
+      );
 
-      <div class="reveal">
-        💎✨ 宝を発見！
-      </div>
 
-      <div class="treasure-title">
-        ${escapeHtml(treasure.text||"名前のない宝")}
-      </div>
+    const treasures=[];
 
-      <div class="distance">
-        📍 約${Math.round(d)}m
-      </div>
 
-    </div>
-    `;
+    snapshot.forEach(
+      doc=>{
+
+        const data=
+          doc.data();
+
+
+        if(
+
+          typeof data.lat!=="number"
+
+          ||
+
+          typeof data.lng!=="number"
+
+        ){
+
+          return;
+
+        }
+
+
+        const d=
+          distance(
+
+            location.lat,
+
+            location.lng,
+
+            data.lat,
+
+            data.lng
+
+          );
+
+
+        if(d<=100){
+
+          treasures.push({
+
+            id:
+            doc.id,
+
+            ...data,
+
+            distance:d
+
+          });
+
+        }
+
+      }
+    );
+
+
+    treasures.sort(
+      (a,b)=>
+        a.distance-b.distance
+    );
+
+
+    /* 宝がない */
+
+    if(treasures.length===0){
+
+      treasuresBox.innerHTML=`
+
+        <div class="card empty">
+
+          💭 この近くには、まだ宝の気配がないみたい。
+
+        </div>
+
+      `;
+
+
+      status.textContent=
+        "この100m以内には宝がありません。";
+
+
+      setBuddy(
+
+        "🐾 うーん……まだ何も感じないな。<br>" +
+
+        "別の場所を探してみよう！"
+
+      );
+
+
+      return;
+
+    }
+
+
+    /* 発見した宝 */
+
+    const found=
+      treasures.filter(
+        treasure=>
+          treasure.distance<=10
+      );
+
+
+    found.forEach(
+      treasure=>{
+
+        const isNew=
+          addFoundTreasure(
+            treasure
+          );
+
+
+        if(isNew){
+
+          renderFoundHistory();
+
+        }
+
+      }
+    );
+
+
+    /* 相棒メッセージ */
+
+    if(found.length>0){
+
+      setBuddy(
+
+        "🐾 あっ！！<br>" +
+
+        "<strong>すごく近いよ！</strong><br>" +
+
+        "宝がある！"
+
+      );
+
+    }
+
+    else if(
+
+      treasures.some(
+        treasure=>
+          treasure.distance<=30
+      )
+
+    ){
+
+      setBuddy(
+
+        "🐾 かなり近い……。<br>" +
+
+        "この辺りに宝があるよ。"
+
+      );
+
+    }
+
+    else{
+
+      setBuddy(
+
+        "🐾 何か感じる……。<br>" +
+
+        "この近くに宝があるみたい。"
+
+      );
+
+    }
+
+
+    /* 宝を表示 */
+
+    treasures.forEach(
+      treasure=>{
+
+        const d=
+          treasure.distance;
+
+
+        let html="";
+
+
+        /* 10m以内 */
+
+        if(d<=10){
+
+          flashText.innerHTML=
+            "💎✨ 宝を発見！";
+
+
+          flash.classList.remove(
+            "show"
+          );
+
+
+          requestAnimationFrame(
+            ()=>{
+
+              flash.classList.add(
+                "show"
+              );
+
+
+              setTimeout(
+                ()=>{
+
+                  flashText.innerHTML=
+
+                    "💎✨ 宝を発見！" +
+
+                    "<br><br>" +
+
+                    escapeHtml(
+
+                      treasure.text ||
+
+                      "名前のない宝"
+
+                    );
+
+                },
+
+                700
+
+              );
+
+
+              setTimeout(
+                ()=>{
+
+                  flash.classList.remove(
+                    "show"
+                  );
+
+                },
+
+                3000
+
+              );
+
+            }
+          );
+
+
+          html=`
+
+            <div class="treasure found">
+
+              <div class="reveal">
+
+                💎✨ 宝を発見！
+
+              </div>
+
+
+              <div class="treasure-title">
+
+                ${escapeHtml(
+
+                  treasure.text ||
+
+                  "名前のない宝"
+
+                )}
+
+              </div>
+
+
+              <div class="distance">
+
+                📍 約${Math.round(d)}m
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        /* 10〜30m */
+
+        else if(d<=30){
+
+          html=`
+
+            <div class="treasure near">
+
+              <div class="treasure-title">
+
+                🐾 近い……！
+
+              </div>
+
+
+              <div>
+
+                宝の気配がかなり強くなってきたよ。
+
+              </div>
+
+
+              <div class="distance">
+
+                📍 約${Math.round(d)}m
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        /* 30〜100m */
+
+        else{
+
+          html=`
+
+            <div class="treasure near">
+
+              <div class="treasure-title">
+
+                💫 宝の気配……
+
+              </div>
+
+
+              <div>
+
+                🐾 何か感じる。
+
+                この辺りに宝があるみたい。
+
+              </div>
+
+
+              <div class="distance">
+
+                📍 約${Math.round(d)}m
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+
+
+        treasuresBox.innerHTML+=
+          html;
+
+      }
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+
+    status.textContent=
+      "❌ 宝を探せませんでした。";
+
+
+    setBuddy(
+
+      "🐾 ごめんね。<br>" +
+
+      "今は宝を探せなかったみたい。"
+
+    );
 
   }
 
-  else if(d<=30){
-
-    html=`
-    <div class="treasure near">
-
-      <div class="treasure-title">
-        🐾 近い……！
-      </div>
-
-      <div>
-        宝の気配がかなり強くなってきたよ。
-      </div>
-
-      <div class="distance">
-        📍 約${Math.round(d)}m
-      </div>
-
-    </div>
-    `;
-
-  }
-
-  else{
-
-    html=`
-    <div class="treasure near">
-
-      <div class="treasure-title">
-        💫 宝の気配……
-      </div>
-
-      <div>
-        🐾 何か感じる。この辺りに宝があるみたい。
-      </div>
-
-      <div class="distance">
-        📍 約${Math.round(d)}m
-      </div>
-
-    </div>
-    `;
-
-  }
-
-  treasuresBox.innerHTML+=html;
-
-});
-
 }
 
-catch(error){
 
-console.error(error);
-
-saveStatus.textContent=
-"❌ 宝を残せませんでした。";
-
-}
-
-}
-
+/* =========================
+   ボタン
+========================= */
 
 findBtn.addEventListener(
-"click",
-findTreasures
+  "click",
+  findTreasures
 );
 
+
 saveBtn.addEventListener(
-"click",
-saveTreasure
+  "click",
+  saveTreasure
 );
+
+
+/* =========================
+   起動時に履歴表示
+========================= */
+
+renderFoundHistory();
+
 
 </script>
 
 </body>
-</html>
 
+</html>
