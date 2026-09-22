@@ -611,7 +611,17 @@ return;
 const found=treasures.filter(
 t=>t.distance<=10
 );
+found.forEach(treasure=>{
+  const card = document.createElement("div");
+  card.className = "treasure-card";
 
+  card.innerHTML = `
+    <strong>💎 ${treasure.text}</strong>
+    <div>📍 発見した宝</div>
+  `;
+
+  foundTreasures.prepend(card);
+});
 
 if(found.length>0){
 
