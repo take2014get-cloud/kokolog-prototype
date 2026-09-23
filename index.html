@@ -516,7 +516,34 @@ textarea{
   <div class="buddy">
     🐾
   </div>
+<div style="text-align:center;margin-bottom:12px">
 
+  <input
+    id="buddyName"
+    type="text"
+    maxlength="12"
+    placeholder="相棒の名前を入力"
+    style="
+      width:100%;
+      padding:12px;
+      border:1px solid #ddd;
+      border-radius:12px;
+      font-size:16px;
+      text-align:center;
+    "
+  >
+
+  <button
+    id="setBuddyBtn"
+    style="
+      margin-top:6px;
+      background:#777;
+    "
+  >
+    🐾 この名前にする
+  </button>
+
+</div>
 
   <div
     id="buddyMessage"
@@ -697,7 +724,11 @@ document.getElementById("buddyMessage");
 
 const textBox =
 document.getElementById("text");
+const buddyName =
+document.getElementById("buddyName");
 
+const setBuddyBtn =
+document.getElementById("setBuddyBtn");
 const flash =
 document.getElementById("flash");
 
@@ -858,7 +889,38 @@ function setBuddy(message){
     message;
 
 }
+function saveBuddyName(){
 
+  const name =
+    buddyName.value.trim();
+
+  if(!name){
+
+    setBuddy(
+      "🐾 名前を決めてくれたら嬉しいな。"
+    );
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "kokolog_buddy_name",
+    name
+  );
+
+  setBuddy(
+    `🐾 ${escapeHtml(name)}だよ！<br>
+    これから一緒に宝を探そう！`
+  );
+
+}
+
+
+setBuddyBtn.addEventListener(
+  "click",
+  saveBuddyName
+);
 
 /* =========================
    発見履歴
@@ -1566,7 +1628,22 @@ saveBtn.addEventListener(
 ========================= */
 
 renderFoundHistory();
+const savedBuddyName =
+  localStorage.getItem(
+    "kokolog_buddy_name"
+  );
 
+if(savedBuddyName){
+
+  buddyName.value =
+    savedBuddyName;
+
+  setBuddy(
+    `🐾 ${escapeHtml(savedBuddyName)}だよ！<br>
+    今日も一緒に宝を探そう！`
+  );
+
+}
 
 </script>
 
