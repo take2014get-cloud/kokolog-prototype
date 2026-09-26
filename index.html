@@ -889,7 +889,18 @@ function setBuddy(message){
     message;
 
 }
-function saveBuddyName(){
+function buddyTalk(message){
+
+const name =
+localStorage.getItem("kokolog_buddy_name") ||
+"相棒";
+
+setBuddy(
+`🐾 ${escapeHtml(name)}「${message}」`
+);
+
+}
+  function saveBuddyName(){
 
   const name =
     buddyName.value.trim();
@@ -1183,11 +1194,10 @@ async function findTreasures(){
     "📍 現在地を確認しています…";
 
 
-  setBuddy(
-    "🐾 ちょっと待ってね。<br>" +
-    "今いる場所を調べてるよ。"
-  );
-
+  buddyTalk(
+  "ちょっと待ってね。<br>" +
+  "今いる場所を調べてるよ。"
+);
 
   try{
 
@@ -1204,13 +1214,13 @@ async function findTreasures(){
       `経度 ${location.lng.toFixed(5)}`;
 
 
-    setBuddy(
+    buddyTalk(
 
-      "🐾 よし、場所が分かった！<br>" +
+  "よし、場所が分かった！<br>" +
 
-      "この近くに宝がないか探してみよう。"
+  "この近くに宝がないか探してみよう。"
 
-    );
+);
 
 
     const snapshot=
@@ -1305,7 +1315,7 @@ async function findTreasures(){
         "この100m以内には宝がありません。";
 
 
-      setBuddy(
+     buddyTalk(
 
         "🐾 うーん……まだ何も感じないな。<br>" +
 
@@ -1351,7 +1361,7 @@ async function findTreasures(){
 
     if(found.length>0){
 
-      setBuddy(
+    buddyTalk(
 
         "🐾 あっ！！<br>" +
 
@@ -1372,7 +1382,7 @@ async function findTreasures(){
 
     ){
 
-      setBuddy(
+    buddyTalk(
 
         "🐾 かなり近い……。<br>" +
 
@@ -1384,7 +1394,7 @@ async function findTreasures(){
 
     else{
 
-      setBuddy(
+      buddyTalk(
 
         "🐾 何か感じる……。<br>" +
 
@@ -1594,7 +1604,7 @@ async function findTreasures(){
       "❌ 宝を探せませんでした。";
 
 
-    setBuddy(
+    buddyTalk(
 
       "🐾 ごめんね。<br>" +
 
