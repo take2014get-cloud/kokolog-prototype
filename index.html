@@ -1,36 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>ココログ</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans JP",
-    sans-serif;
-  background:
-    linear-gradient(
-      180deg,
-      #f4f1ff 0%,
-      #ffffff 55%,
-      #eef8ff 100%
-    );
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
+  background:linear-gradient(180deg,#f4f1ff,#fff 55%,#eef8ff);
   color:#333;
 }
 
@@ -58,14 +39,12 @@ h1{
   border-radius:20px;
   padding:18px;
   margin-bottom:15px;
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.08);
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
 .buddy{
   text-align:center;
   font-size:70px;
-  margin-bottom:5px;
 }
 
 .buddy-message{
@@ -77,13 +56,7 @@ h1{
   min-height:70px;
 }
 
-.name-area{
-  margin-top:14px;
-  text-align:center;
-}
-
-input,
-textarea{
+input,textarea{
   width:100%;
   border:1px solid #ddd;
   border-radius:12px;
@@ -107,11 +80,7 @@ button{
   cursor:pointer;
   margin-top:9px;
   background:#6c63ff;
-  color:#fff;
-}
-
-button:active{
-  transform:scale(.98);
+  color:white;
 }
 
 .secondary{
@@ -133,8 +102,7 @@ button:active{
 
 .stats{
   display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
   margin-top:15px;
 }
@@ -167,7 +135,6 @@ button:active{
   border-radius:16px;
   padding:15px;
   margin-top:12px;
-  background:#fff;
 }
 
 .treasure-distance{
@@ -214,13 +181,11 @@ button:active{
 #flash{
   position:fixed;
   inset:0;
-  background:
-    rgba(255,255,255,.96);
+  background:rgba(255,255,255,.96);
   display:none;
   align-items:center;
   justify-content:center;
   z-index:9999;
-  animation:flashIn .3s ease;
 }
 
 #flash.show{
@@ -231,214 +196,146 @@ button:active{
   text-align:center;
   font-size:32px;
   font-weight:bold;
-  padding:30px;
 }
-
-@keyframes flashIn{
-  from{
-    opacity:0;
-  }
-  to{
-    opacity:1;
-  }
-}
-
-.small{
-  font-size:12px;
-  color:#888;
-  line-height:1.6;
-}
-
 </style>
-
 </head>
-
 
 <body>
 
 <div class="container">
 
-  <h1>🐾 ココログ</h1>
+<h1>🐾 ココログ</h1>
 
-  <div class="subtitle">
-    この場所に、あなたの言葉を残そう。
-  </div>
-
-
-  <!-- =========================
-       相棒
-  ========================= -->
-
-  <div class="card">
-
-    <div class="buddy">
-      🐾
-    </div>
-
-    <div
-      id="buddyMessage"
-      class="buddy-message"
-    >
-      🐾 相棒と一緒に宝を探そう！
-    </div>
+<div class="subtitle">
+この場所に、あなたの言葉を残そう。
+</div>
 
 
-    <div class="name-area">
+<!-- =========================
+     相棒
+========================= -->
 
-      <input
-        id="buddyName"
-        type="text"
-        maxlength="12"
-        placeholder="相棒の名前を入力"
-      >
+<div class="card">
 
-      <button
-        id="setBuddyBtn"
-        class="secondary"
-      >
-        🐾 この名前にする
-      </button>
+<div class="buddy">🐾</div>
 
-    </div>
+<div id="buddyMessage" class="buddy-message">
+🐾 相棒と一緒に宝を探そう！
+</div>
 
+<div style="text-align:center;margin-top:14px">
 
-    <div
-      id="buddyLevel"
-      class="level"
-    >
-      ⭐ 相棒レベル 1
-    </div>
+<input
+  id="buddyName"
+  type="text"
+  maxlength="12"
+  placeholder="相棒の名前を入力"
+>
 
+<button
+  id="setBuddyBtn"
+  class="secondary"
+>
+🐾 この名前にする
+</button>
 
-    <div class="stats">
+</div>
 
-      <div class="stat">
-        <div
-          id="searchCount"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          宝探し
-        </div>
-      </div>
+<div id="buddyLevel" class="level">
+⭐ 相棒レベル 1
+</div>
 
-      <div class="stat">
-        <div
-          id="foundCount"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          発見
-        </div>
-      </div>
+<div class="stats">
 
-      <div class="stat">
-        <div
-          id="saveCount"
-          class="stat-number"
-        >
-          0
-        </div>
-        <div class="stat-label">
-          宝を残した
-        </div>
-      </div>
+<div class="stat">
+<div id="searchCount" class="stat-number">0</div>
+<div class="stat-label">宝探し</div>
+</div>
 
-    </div>
+<div class="stat">
+<div id="foundCount" class="stat-number">0</div>
+<div class="stat-label">発見</div>
+</div>
 
-  </div>
+<div class="stat">
+<div id="saveCount" class="stat-number">0</div>
+<div class="stat-label">宝を残した</div>
+</div>
 
-
-  <!-- =========================
-       宝を探す
-  ========================= -->
-
-  <div class="card">
-
-    <button
-      id="findBtn"
-      class="find-button"
-    >
-      🔎 近くの宝を探す
-    </button>
-
-    <div
-      id="status"
-      class="status"
-    >
-    </div>
-
-    <div id="treasures"></div>
-
-  </div>
-
-
-  <!-- =========================
-       宝を残す
-  ========================= -->
-
-  <div class="card">
-
-    <h2>💎 宝を残す</h2>
-
-    <p class="small">
-      今いる場所に、あなたの言葉を残せます。
-    </p>
-
-    <textarea
-      id="treasureText"
-      placeholder="この場所に残したい言葉を書いてみよう…"
-    ></textarea>
-
-    <button id="saveBtn">
-      ✨ この場所に宝を残す
-    </button>
-
-    <div
-      id="saveStatus"
-      class="status"
-    >
-    </div>
-
-  </div>
-
-
-  <!-- =========================
-       発見した宝
-  ========================= -->
-
-  <div class="card">
-
-    <h2>🏆 発見した宝</h2>
-
-    <div id="foundTreasures">
-
-      <div class="no-history">
-        まだ発見した宝はないよ。<br>
-        宝を探しに行ってみよう！
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 </div>
 
 
 <!-- =========================
-     宝発見アニメーション
+     宝を探す
 ========================= -->
 
+<div class="card">
+
+<button
+  id="findBtn"
+  class="find-button"
+>
+🔎 近くの宝を探す
+</button>
+
+<div id="status" class="status"></div>
+
+<div id="treasures"></div>
+
+</div>
+
+
+<!-- =========================
+     宝を残す
+========================= -->
+
+<div class="card">
+
+<h2>💎 宝を残す</h2>
+
+<textarea
+  id="treasureText"
+  placeholder="この場所に残したい言葉を書いてみよう…"
+></textarea>
+
+<button id="saveBtn">
+✨ この場所に宝を残す
+</button>
+
+<div id="saveStatus" class="status"></div>
+
+</div>
+
+
+<!-- =========================
+     発見した宝
+========================= -->
+
+<div class="card">
+
+<h2>🏆 発見した宝</h2>
+
+<div id="foundTreasures">
+
+<div class="no-history">
+まだ発見した宝はないよ。<br>
+宝を探しに行ってみよう！
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
 <div id="flash">
-
-  <div id="flashText">
-    💎✨ 宝を発見！
-  </div>
-
+<div id="flashText">
+💎✨<br>
+宝を発見！
+</div>
 </div>
 
 
@@ -448,10 +345,8 @@ button:active{
    Firebase
 ========================= */
 
-import {
-  initializeApp
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
   getFirestore,
@@ -459,105 +354,95 @@ import {
   addDoc,
   getDocs,
   serverTimestamp
-} from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyCwlrGb45ZlCoiWq549iAusHA0t6DlobEY",
+  apiKey:"AIzaSyCwlrGb45ZlCoiWq549iAusHA0t6DlobEY",
 
-  authDomain:
-    "kokolog-49f3a.firebaseapp.com",
+  authDomain:"kokolog-49f3a.firebaseapp.com",
 
-  projectId:
-    "kokolog-49f3a",
+  projectId:"kokolog-49f3a",
 
-  storageBucket:
-    "kokolog-49f3a.firebasestorage.app",
+  storageBucket:"kokolog-49f3a.firebasestorage.app",
 
-  messagingSenderId:
-    "502064180142",
+  messagingSenderId:"502064180142",
 
-  appId:
-    "1:502064180142:web:f52b885f1f6821880e363f"
+  appId:"1:502064180142:web:f52b885f1f6821880e363f"
 
 };
 
 
-const app =
-  initializeApp(firebaseConfig);
+const app=initializeApp(firebaseConfig);
 
-const db =
-  getFirestore(app);
+const db=getFirestore(app);
 
 
 /* =========================
    HTML要素
 ========================= */
 
-const findBtn =
-  document.getElementById("findBtn");
+const findBtn=document.getElementById("findBtn");
 
-const saveBtn =
-  document.getElementById("saveBtn");
+const saveBtn=document.getElementById("saveBtn");
 
-const treasureText =
-  document.getElementById("treasureText");
+const treasureText=
+document.getElementById("treasureText");
 
-const treasuresBox =
-  document.getElementById("treasures");
+const treasuresBox=
+document.getElementById("treasures");
 
-const status =
-  document.getElementById("status");
+const status=
+document.getElementById("status");
 
-const saveStatus =
-  document.getElementById("saveStatus");
+const saveStatus=
+document.getElementById("saveStatus");
 
-const buddyMessage =
-  document.getElementById("buddyMessage");
+const buddyMessage=
+document.getElementById("buddyMessage");
 
-const buddyName =
-  document.getElementById("buddyName");
+const buddyName=
+document.getElementById("buddyName");
 
-const setBuddyBtn =
-  document.getElementById("setBuddyBtn");
+const setBuddyBtn=
+document.getElementById("setBuddyBtn");
 
-const foundTreasures =
-  document.getElementById("foundTreasures");
+const foundTreasures=
+document.getElementById("foundTreasures");
 
-const flash =
-  document.getElementById("flash");
+const flash=
+document.getElementById("flash");
 
-const flashText =
-  document.getElementById("flashText");
+const flashText=
+document.getElementById("flashText");
 
-const buddyLevel =
-  document.getElementById("buddyLevel");
+const buddyLevel=
+document.getElementById("buddyLevel");
 
-const searchCount =
-  document.getElementById("searchCount");
+const searchCount=
+document.getElementById("searchCount");
 
-const foundCount =
-  document.getElementById("foundCount");
+const foundCount=
+document.getElementById("foundCount");
 
-const saveCount =
-  document.getElementById("saveCount");
+const saveCount=
+document.getElementById("saveCount");
 
 
 /* =========================
-   データ保存キー
+   保存キー
 ========================= */
 
-const BUDDY_NAME_KEY =
-  "kokolog_buddy_name";
+const NAME_KEY=
+"kokolog_buddy_name";
 
-const BUDDY_DATA_KEY =
-  "kokolog_buddy_data";
+const DATA_KEY=
+"kokolog_buddy_data";
 
-const HISTORY_KEY =
-  "kokolog_found_treasures";
+const HISTORY_KEY=
+"kokolog_found_treasures";
 
 
 /* =========================
@@ -566,12 +451,12 @@ const HISTORY_KEY =
 
 function escapeHtml(value){
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
@@ -582,132 +467,85 @@ function escapeHtml(value){
 
 function getBuddyData(){
 
-  const saved =
-    localStorage.getItem(
-      BUDDY_DATA_KEY
-    );
+const saved=
+localStorage.getItem(DATA_KEY);
 
-  if(saved){
+if(saved){
 
-    try{
+try{
 
-      return JSON.parse(saved);
+return JSON.parse(saved);
 
-    }catch(error){
+}catch(e){
 
-      console.error(error);
+console.error(e);
 
-    }
+}
 
-  }
+}
 
-  return {
+return {
 
-    level:1,
-    searchCount:0,
-    foundCount:0,
-    saveCount:0
+level:1,
+searchCount:0,
+foundCount:0,
+saveCount:0
 
-  };
+};
 
 }
 
 
 function saveBuddyData(data){
 
-  localStorage.setItem(
-    BUDDY_DATA_KEY,
-    JSON.stringify(data)
-  );
+localStorage.setItem(
+DATA_KEY,
+JSON.stringify(data)
+);
 
 }
 
 
 function updateBuddyStats(){
 
-  const data =
-    getBuddyData();
+const data=getBuddyData();
 
-  searchCount.textContent =
-    data.searchCount;
+searchCount.textContent=
+data.searchCount;
 
-  foundCount.textContent =
-    data.foundCount;
+foundCount.textContent=
+data.foundCount;
 
-  saveCount.textContent =
-    data.saveCount;
+saveCount.textContent=
+data.saveCount;
 
-  buddyLevel.textContent =
-    `⭐ 相棒レベル ${data.level}`;
-
-}
-
-
-/* =========================
-   相棒レベル計算
-========================= */
-
-function calculateLevel(data){
-
-  const points =
-    data.searchCount +
-    data.foundCount * 2 +
-    data.saveCount * 2;
-
-  return Math.max(
-    1,
-    Math.floor(points / 5) + 1
-  );
-
-}
-
-
-function updateBuddyLevel(){
-
-  const data =
-    getBuddyData();
-
-  const oldLevel =
-    data.level;
-
-  const newLevel =
-    calculateLevel(data);
-
-  data.level =
-    newLevel;
-
-  saveBuddyData(data);
-
-  updateBuddyStats();
-
-  return newLevel > oldLevel;
+buddyLevel.textContent=
+`⭐ 相棒レベル ${data.level}`;
 
 }
 
 
 /* =========================
-   AI相棒メッセージ
+   相棒メッセージ
 ========================= */
 
 function setBuddy(message){
 
-  buddyMessage.innerHTML =
-    message;
+buddyMessage.innerHTML=
+message;
 
 }
 
 
 function buddyTalk(message){
 
-  const name =
-    localStorage.getItem(
-      BUDDY_NAME_KEY
-    ) ||
-    "相棒";
+const name=
+localStorage.getItem(NAME_KEY) ||
+"相棒";
 
-  setBuddy(
-    `🐾 ${escapeHtml(name)}「${message}」`
-  );
+setBuddy(
+`🐾 ${escapeHtml(name)}「${message}」`
+);
 
 }
 
@@ -718,35 +556,35 @@ function buddyTalk(message){
 
 function saveBuddyName(){
 
-  const name =
-    buddyName.value.trim();
+const name=
+buddyName.value.trim();
 
-  if(!name){
+if(!name){
 
-    setBuddy(
-      "🐾 名前を決めてくれたら嬉しいな。"
-    );
+setBuddy(
+"🐾 名前を決めてくれたら嬉しいな。"
+);
 
-    return;
+return;
 
-  }
+}
 
-  localStorage.setItem(
-    BUDDY_NAME_KEY,
-    name
-  );
+localStorage.setItem(
+NAME_KEY,
+name
+);
 
-  buddyTalk(
-    "よろしくね！<br>" +
-    "これから一緒に宝を探そう！"
-  );
+buddyTalk(
+"よろしくね！<br>" +
+"これから一緒に宝を探そう！"
+);
 
 }
 
 
 setBuddyBtn.addEventListener(
-  "click",
-  saveBuddyName
+"click",
+saveBuddyName
 );
 
 
@@ -756,60 +594,53 @@ setBuddyBtn.addEventListener(
 
 function getLocation(){
 
-  return new Promise(
-    (resolve,reject)=>{
+return new Promise(
+(resolve,reject)=>{
 
-      if(
-        !navigator.geolocation
-      ){
+if(!navigator.geolocation){
 
-        reject(
-          new Error(
-            "GPSが利用できません"
-          )
-        );
+reject(
+new Error("GPSが利用できません")
+);
 
-        return;
+return;
 
-      }
+}
 
+navigator.geolocation.getCurrentPosition(
 
-      navigator.geolocation.getCurrentPosition(
+position=>{
 
-        position=>{
+resolve({
 
-          resolve({
+lat:position.coords.latitude,
 
-            lat:
-              position.coords.latitude,
+lng:position.coords.longitude
 
-            lng:
-              position.coords.longitude
+});
 
-          });
+},
 
-        },
+error=>{
 
-        error=>{
+reject(error);
 
-          reject(error);
+},
 
-        },
+{
 
-        {
+enableHighAccuracy:true,
 
-          enableHighAccuracy:true,
+timeout:15000,
 
-          timeout:15000,
+maximumAge:0
 
-          maximumAge:0
+}
 
-        }
+);
 
-      );
-
-    }
-  );
+}
+);
 
 }
 
@@ -819,42 +650,33 @@ function getLocation(){
 ========================= */
 
 function distance(
-  lat1,
-  lng1,
-  lat2,
-  lng2
+lat1,lng1,
+lat2,lng2
 ){
 
-  const R =
-    6371000;
+const R=6371000;
 
-  const rad =
-    Math.PI / 180;
+const rad=Math.PI/180;
 
-  const dLat =
-    (lat2-lat1)*rad;
+const dLat=
+(lat2-lat1)*rad;
 
-  const dLng =
-    (lng2-lng1)*rad;
+const dLng=
+(lng2-lng1)*rad;
 
-  const a =
-    Math.sin(dLat/2) *
-    Math.sin(dLat/2) +
+const a=
+Math.sin(dLat/2)**2+
+Math.cos(lat1*rad)*
+Math.cos(lat2*rad)*
+Math.sin(dLng/2)**2;
 
-    Math.cos(lat1*rad) *
-    Math.cos(lat2*rad) *
+const c=
+2*Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
 
-    Math.sin(dLng/2) *
-    Math.sin(dLng/2);
-
-  const c =
-    2 *
-    Math.atan2(
-      Math.sqrt(a),
-      Math.sqrt(1-a)
-    );
-
-  return R*c;
+return R*c;
 
 }
 
@@ -862,3 +684,540 @@ function distance(
 /* =========================
    発見履歴
 ========================= */
+
+function getFoundHistory(){
+
+const saved=
+localStorage.getItem(HISTORY_KEY);
+
+if(!saved)return [];
+
+try{
+
+return JSON.parse(saved);
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+
+function saveFoundHistory(history){
+
+localStorage.setItem(
+HISTORY_KEY,
+JSON.stringify(history)
+);
+
+}
+
+
+function addFoundTreasure(treasure){
+
+const history=
+getFoundHistory();
+
+if(
+history.some(
+item=>item.id===treasure.id
+)
+){
+
+return false;
+
+}
+
+history.unshift({
+
+id:treasure.id,
+
+text:treasure.text,
+
+foundAt:
+new Date().toLocaleString("ja-JP")
+
+});
+
+saveFoundHistory(history);
+
+renderFoundHistory();
+
+return true;
+
+}
+
+
+function renderFoundHistory(){
+
+const history=
+getFoundHistory();
+
+if(history.length===0){
+
+foundTreasures.innerHTML=
+`
+<div class="no-history">
+まだ発見した宝はないよ。<br>
+宝を探しに行ってみよう！
+</div>
+`;
+
+return;
+
+}
+
+foundTreasures.innerHTML=
+history.map(item=>`
+
+<div class="history">
+
+<div class="history-title">
+💎 ${escapeHtml(item.text)}
+</div>
+
+<div class="history-date">
+発見：${escapeHtml(item.foundAt)}
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   レベル
+========================= */
+
+function updateLevel(){
+
+const data=getBuddyData();
+
+const points=
+data.searchCount+
+data.foundCount*2+
+data.saveCount*2;
+
+const newLevel=
+Math.max(
+1,
+Math.floor(points/5)+1
+);
+
+const changed=
+newLevel>data.level;
+
+data.level=newLevel;
+
+saveBuddyData(data);
+
+updateBuddyStats();
+
+return changed;
+
+}
+
+
+/* =========================
+   宝を残す
+========================= */
+
+async function saveTreasure(){
+
+const text=
+treasureText.value.trim();
+
+if(!text){
+
+saveStatus.textContent=
+"💬 残したい言葉を書いてね。";
+
+buddyTalk(
+"何を残そうかな？<br>" +
+"言葉をひとつ書いてみて！"
+);
+
+return;
+
+}
+
+saveStatus.textContent=
+"📍 現在地を確認しています…";
+
+buddyTalk(
+"どこに残すか確認するね。"
+);
+
+try{
+
+const location=
+await getLocation();
+
+await addDoc(
+collection(db,"treasures"),
+{
+
+text:text,
+
+lat:location.lat,
+
+lng:location.lng,
+
+createdAt:serverTimestamp()
+
+}
+);
+
+const data=getBuddyData();
+
+data.saveCount++;
+
+saveBuddyData(data);
+
+const levelUp=updateLevel();
+
+treasureText.value="";
+
+saveStatus.textContent=
+"✨ 宝を残した！";
+
+if(levelUp){
+
+buddyTalk(
+"<strong>レベルアップ！🎉</strong><br>" +
+"ココも少し成長したよ！"
+);
+
+}else{
+
+buddyTalk(
+"宝がひとつ増えたね。<br>" +
+"誰かが見つけてくれるといいね。"
+);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+saveStatus.textContent=
+"❌ 宝を残せませんでした。";
+
+buddyTalk(
+"ごめんね。<br>" +
+"今は宝を残せなかったみたい。"
+);
+
+}
+
+}
+
+
+/* =========================
+   宝を探す
+========================= */
+
+async function findTreasures(){
+
+treasuresBox.innerHTML="";
+
+status.textContent=
+"📍 現在地を確認しています…";
+
+const data=getBuddyData();
+
+data.searchCount++;
+
+saveBuddyData(data);
+
+updateLevel();
+
+buddyTalk(
+"ちょっと待ってね。<br>" +
+"今いる場所を調べてるよ。"
+);
+
+try{
+
+const location=
+await getLocation();
+
+status.textContent=
+"🔎 この近くの宝を探しています…";
+
+buddyTalk(
+"よし、場所が分かった！<br>" +
+"この近くに宝がないか探してみよう。"
+);
+
+const snapshot=
+await getDocs(
+collection(db,"treasures")
+);
+
+const treasures=[];
+
+snapshot.forEach(docSnap=>{
+
+const treasure=
+docSnap.data();
+
+if(
+typeof treasure.lat!=="number" ||
+typeof treasure.lng!=="number"
+){
+
+return;
+
+}
+
+const dist=
+distance(
+location.lat,
+location.lng,
+treasure.lat,
+treasure.lng
+);
+
+if(dist<=100){
+
+treasures.push({
+
+id:docSnap.id,
+
+text:treasure.text || "",
+
+distance:dist,
+
+lat:treasure.lat,
+
+lng:treasure.lng
+
+});
+
+}
+
+});
+
+
+treasures.sort(
+(a,b)=>a.distance-b.distance
+);
+
+
+if(treasures.length===0){
+
+status.textContent=
+"🌱 この近くにはまだ宝がないみたい。";
+
+buddyTalk(
+"うーん……まだ何も感じないな。<br>" +
+"別の場所を探してみよう！"
+);
+
+return;
+
+}
+
+
+const found=
+treasures.filter(
+t=>t.distance<=10
+);
+
+
+let newlyFound=0;
+
+
+found.forEach(treasure=>{
+
+if(addFoundTreasure(treasure)){
+
+newlyFound++;
+
+}
+
+});
+
+
+if(newlyFound>0){
+
+const data=getBuddyData();
+
+data.foundCount+=newlyFound;
+
+saveBuddyData(data);
+
+updateLevel();
+
+}
+
+
+if(found.length>0){
+
+status.textContent=
+"💎 宝を発見しました！";
+
+buddyTalk(
+"<strong>あっ！！</strong><br>" +
+"宝がある！"
+);
+
+flashText.innerHTML=
+"💎✨<br>宝を発見！";
+
+flash.classList.add("show");
+
+setTimeout(
+()=>{
+flash.classList.remove("show");
+},
+1600
+);
+
+}
+else if(
+treasures.some(
+t=>t.distance<=30
+)
+){
+
+status.textContent=
+"👀 宝はかなり近くにあります。";
+
+buddyTalk(
+"かなり近い……。<br>" +
+"この辺りに宝があるよ。"
+);
+
+}
+else{
+
+status.textContent=
+"✨ 宝の気配を感じます。";
+
+buddyTalk(
+"何か感じる……。<br>" +
+"この近くに宝があるみたい。"
+);
+
+}
+
+
+treasures.forEach(treasure=>{
+
+const div=
+document.createElement("div");
+
+div.className="treasure";
+
+let distanceText;
+
+if(treasure.distance<=10){
+
+distanceText=
+"💎 宝を発見！";
+
+}
+else if(treasure.distance<=30){
+
+distanceText=
+`🔥 約${Math.round(treasure.distance)}m`;
+
+}
+else{
+
+distanceText=
+`✨ 約${Math.round(treasure.distance)}m`;
+
+}
+
+div.innerHTML=`
+
+<div class="treasure-distance">
+${distanceText}
+</div>
+
+<div class="treasure-text">
+${escapeHtml(treasure.text)}
+</div>
+
+<div class="treasure-meta">
+${
+treasure.distance<=10
+?"この場所に眠っていた宝だよ"
+:"もう少し近づいてみよう"
+}
+</div>
+
+`;
+
+treasuresBox.appendChild(div);
+
+});
+
+
+}catch(error){
+
+console.error(error);
+
+status.textContent=
+"❌ 宝を探せませんでした。";
+
+buddyTalk(
+"ごめんね。<br>" +
+"今は宝を探せなかったみたい。"
+);
+
+}
+
+}
+
+
+/* =========================
+   ボタン
+========================= */
+
+findBtn.addEventListener(
+"click",
+findTreasures
+);
+
+saveBtn.addEventListener(
+"click",
+saveTreasure
+);
+
+
+/* =========================
+   起動
+========================= */
+
+renderFoundHistory();
+
+updateBuddyStats();
+
+const savedName=
+localStorage.getItem(NAME_KEY);
+
+if(savedName){
+
+buddyName.value=
+savedName;
+
+setBuddy(
+`🐾 ${escapeHtml(savedName)}だよ！<br>
+今日も一緒に宝を探そう！`
+);
+
+}
+
+</script>
+
+</body>
+</html>
